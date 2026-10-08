@@ -1,0 +1,157 @@
+{
+  "entities": {
+    "Project": {
+      "title": "Project",
+      "description": "A manual video workflow project containing all stories, scenes, prompts, assets, and tasks.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "language": { "type": "string", "maxLength": 50 },
+        "visualStyle": { "type": "string", "maxLength": 100 },
+        "aspectRatio": { "type": "string", "maxLength": 20 },
+        "targetDuration": { "type": "string", "maxLength": 50 },
+        "notes": { "type": "string", "maxLength": 5000 },
+        "status": { "type": "string", "enum": ["draft", "in_progress", "completed", "archived"] },
+        "lastOpenedStage": { "type": "string", "maxLength": 50 },
+        "lastOpenedSceneId": { "type": "string", "maxLength": 128 },
+        "storyApproved": { "type": "boolean" },
+        "storyText": { "type": "string", "maxLength": 50000 },
+        "storyNotes": { "type": "string", "maxLength": 10000 },
+        "musicNotRequired": { "type": "boolean" },
+        "selectedMusicAssetId": { "type": "string", "maxLength": 128 },
+        "selectedFinalVideoAssetId": { "type": "string", "maxLength": 128 },
+        "completionOverrideReason": { "type": "string", "maxLength": 1000 },
+        "version": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "title", "status", "createdAt", "updatedAt"]
+    },
+    "Scene": {
+      "title": "Scene",
+      "description": "A scene within a video project.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "sceneText": { "type": "string", "maxLength": 20000 },
+        "duration": { "type": "string", "maxLength": 50 },
+        "notes": { "type": "string", "maxLength": 5000 },
+        "order": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "complete", "skipped", "review_required"] },
+        "voiceoverText": { "type": "string", "maxLength": 20000 },
+        "voiceNotRequired": { "type": "boolean" },
+        "selectedImageAssetId": { "type": "string", "maxLength": 128 },
+        "selectedVoiceAssetId": { "type": "string", "maxLength": 128 },
+        "selectedVideoAssetId": { "type": "string", "maxLength": 128 },
+        "sceneMusicAssetId": { "type": "string", "maxLength": 128 },
+        "upstreamChanged": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["projectId", "title", "order", "status", "createdAt", "updatedAt"]
+    },
+    "Prompt": {
+      "title": "Prompt",
+      "description": "A text prompt for story, character, image, voice, music, video, or editing.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "fullText": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "category": { "type": "string", "enum": ["story", "character", "image", "voice", "music", "video", "editing", "other"] },
+        "externalTool": { "type": "string", "maxLength": 100 },
+        "notes": { "type": "string", "maxLength": 5000 },
+        "status": { "type": "string", "enum": ["draft", "ready", "used"] },
+        "order": { "type": "number" },
+        "sceneId": { "type": "string", "maxLength": 128 },
+        "characterId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["projectId", "title", "fullText", "category", "status", "createdAt", "updatedAt"]
+    },
+    "Character": {
+      "title": "Character",
+      "description": "Character reference and consistency guide.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 5000 },
+        "appearanceNotes": { "type": "string", "maxLength": 5000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["projectId", "name", "createdAt", "updatedAt"]
+    },
+    "Asset": {
+      "title": "Asset",
+      "description": "Media file reference (image, audio, video) stored in Firebase Storage.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "fileName": { "type": "string", "maxLength": 255 },
+        "fileType": { "type": "string", "enum": ["image", "audio", "video", "other"] },
+        "mimeType": { "type": "string", "maxLength": 100 },
+        "size": { "type": "number" },
+        "storagePath": { "type": "string", "maxLength": 500 },
+        "downloadUrl": { "type": "string", "maxLength": 2000 },
+        "sceneId": { "type": "string", "maxLength": 128 },
+        "promptId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 50 },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["projectId", "fileName", "fileType", "storagePath", "createdAt", "updatedAt"]
+    },
+    "ChecklistItem": {
+      "title": "ChecklistItem",
+      "description": "Final review checklist item or workflow milestone.",
+      "type": "object",
+      "properties": {
+        "projectId": { "type": "string", "maxLength": 128 },
+        "label": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "stage": { "type": "string", "maxLength": 50 },
+        "sceneId": { "type": "string", "maxLength": 128 },
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["pending", "in_progress", "complete", "skipped", "review_required"] },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "manualOrAssetRule": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["projectId", "label", "required", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/projects/{projectId}": {
+      "schema": "Project",
+      "description": "User video projects"
+    },
+    "/users/{userId}/projects/{projectId}/scenes/{sceneId}": {
+      "schema": "Scene",
+      "description": "Scenes belonging to a user project"
+    },
+    "/users/{userId}/projects/{projectId}/prompts/{promptId}": {
+      "schema": "Prompt",
+      "description": "Prompts belonging to a user project"
+    },
+    "/users/{userId}/projects/{projectId}/characters/{characterId}": {
+      "schema": "Character",
+      "description": "Characters belonging to a user project"
+    },
+    "/users/{userId}/projects/{projectId}/assets/{assetId}": {
+      "schema": "Asset",
+      "description": "Assets belonging to a user project"
+    },
+    "/users/{userId}/projects/{projectId}/tasks/{taskId}": {
+      "schema": "ChecklistItem",
+      "description": "Tasks and checklist items belonging to a user project"
+    }
+  }
+}

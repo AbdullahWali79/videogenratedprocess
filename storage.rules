@@ -1,0 +1,15 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Global default-deny safety net
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Authenticated user-scoped project storage
+    // Path structure: users/{userId}/projects/{projectId}/{allPaths=**}
+    match /users/{userId}/projects/{projectId}/{allPaths=**} {
+      allow read, write, delete: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Video Workflow Organizer",
+  "description": "Organize your end-to-end manual video creation workflow: stories, characters, scene prompts, audio, music, video clips, and tasks in one private workspace.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
